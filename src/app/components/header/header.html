@@ -1,0 +1,43 @@
+<header class="header">
+  <div class="container">
+    <div class="logo">
+      <span class="logo-text">Password</span>
+    </div>
+    <nav class="nav">
+      <a routerLink="/" routerLinkActive="active">Главное</a>
+      <a routerLink="/features" routerLinkActive="active">Возможности</a>
+      <a routerLink="/about" routerLinkActive="active">О сервисе</a>
+      <a routerLink="/pricing" routerLinkActive="active">Тарифы</a>
+      <a routerLink="/support" routerLinkActive="active">Поддержка</a>
+    </nav>
+    <div class="auth-buttons">
+      <button class="btn-login" (click)="openModal()">Войти</button>
+      <button class="btn-try" routerLink="/features">Попробовать</button>
+    </div>
+  </div>
+</header>
+
+<div class="modal" *ngIf="showModal">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    
+    <h2 *ngIf="isLoginMode">Вход</h2>
+    <h2 *ngIf="!isLoginMode">Регистрация</h2>
+    
+    <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div class="success-message" *ngIf="successMessage">{{ successMessage }}</div>
+    
+    <input type="email" placeholder="Email (user@example.com)" [(ngModel)]="email">
+    <input type="password" placeholder="Пароль (мин. 8 символов)" [(ngModel)]="password">
+    <input type="password" *ngIf="!isLoginMode" placeholder="Подтвердите пароль" [(ngModel)]="confirmPassword">
+    
+    <button class="submit-btn" (click)="submit()">{{ isLoginMode ? 'Войти' : 'Зарегистрироваться' }}</button>
+    
+    <div class="switch-mode">
+      <span *ngIf="isLoginMode">Нет аккаунта? <a (click)="switchMode()">Зарегистрироваться</a></span>
+      <span *ngIf="!isLoginMode">Уже есть аккаунт? <a (click)="switchMode()">Войти</a></span>
+    </div>
+    
+    <div class="demo" *ngIf="isLoginMode">Тест: user@example.com / 12345678</div>
+  </div>
+</div>

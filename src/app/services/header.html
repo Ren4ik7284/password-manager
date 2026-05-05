@@ -1,0 +1,26 @@
+<header class="header">
+  <div class="container">
+    <div class="logo" (click)="goToHome()">
+      <span class="logo-text">Password</span>
+    </div>
+    <nav class="nav">
+      <a (click)="goToHome()">Главное</a>
+      <a (click)="goToFeatures()">Возможности</a>
+      <a (click)="goToAbout()">О сервисе</a>
+      <a (click)="goToPricing()">Тарифы</a>
+      <a (click)="goToSupport()">Поддержка</a>
+    </nav>
+    <div class="auth-buttons">
+      <ng-container *ngIf="!authService.isAuthenticated(); else loggedIn">
+        <button class="btn-login" (click)="openAuthModal()">Войти</button>
+        <button class="btn-try" (click)="goToFeatures()">Попробовать</button>
+      </ng-container>
+      <ng-template #loggedIn>
+        <span class="user-email">{{ authService.getUser() }}</span>
+        <button class="btn-logout" (click)="logout()">Выйти</button>
+      </ng-template>
+    </div>
+  </div>
+
+  <app-auth-modal *ngIf="showAuthModal" (close)="closeAuthModal()"></app-auth-modal>
+</header>

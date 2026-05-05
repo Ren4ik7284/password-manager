@@ -1,0 +1,83 @@
+.features-page {
+  padding: 80px 20px;
+  background-color: #DDE0FF;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #1a1a2e;
+  margin-bottom: 0.5rem;
+  font-family: 'Abhaya Libre', serif;
+  font-weight: 800;
+}
+
+.subtitle {
+  text-align: center;
+  color: #4F46E5;
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+  font-weight: 500;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 7px;
+  padding: 2rem;
+  text-align: left;
+  transition: all 0.3s;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 30px rgba(0,0,0,0.1);
+  background: white;
+}
+
+.card-icon {
+  margin-bottom: 1rem;
+}
+
+.card-icon img {
+  filter: drop-shadow(0 2px 4px rgba(79, 70, 229, 0.2));
+}
+
+.feature-card h3 {
+  font-size: 1.3rem;
+  color: #1a1a2e;
+  margin-bottom: 0.8rem;
+  font-weight: 700;
+  font-family: 'Abhaya Libre', serif;
+}
+
+.feature-card p {
+  color: #4a5568;
+  line-height: 1.5;
+  margin-bottom: 1.2rem;
+}
+
+.more-link {
+  color: #4F46E5;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+  cursor: pointer;
+}
+
+.more-link:hover {
+  color: #4338CA;
+}

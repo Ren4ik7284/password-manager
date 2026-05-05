@@ -1,0 +1,43 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeModal()">×</button>
+    <h2>{{ isLoginMode ? "Вход" : "Регистрация" }}</h2>
+    
+    <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div class="success-message" *ngIf="successMessage">{{ successMessage }}</div>
+    
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="text" [(ngModel)]="email" name="email" required placeholder="example@mail.com">
+      </div>
+      
+      <div class="form-group">
+        <label>Пароль</label>
+        <input type="password" [(ngModel)]="password" name="password" required placeholder="••••••">
+      </div>
+      
+      <div class="form-group" *ngIf="!isLoginMode">
+        <label>Подтвердите пароль</label>
+        <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required placeholder="••••••">
+      </div>
+      
+      <button type="submit" class="submit-btn">{{ isLoginMode ? "Войти" : "Зарегистрироваться" }}</button>
+    </form>
+    
+    <div class="switch-mode">
+      <span *ngIf="isLoginMode">
+        Нет аккаунта? <a (click)="switchMode()">Зарегистрироваться</a>
+      </span>
+      <span *ngIf="!isLoginMode">
+        Уже есть аккаунт? <a (click)="switchMode()">Войти</a>
+      </span>
+    </div>
+    
+    <div class="demo-accounts" *ngIf="isLoginMode">
+      <p>Тестовые аккаунты:</p>
+      <p class="demo">user@example.com / 123456</p>
+      <p class="demo">test@test.com / test123</p>
+    </div>
+  </div>
+</div>

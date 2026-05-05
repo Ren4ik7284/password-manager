@@ -1,0 +1,15 @@
+.footer {
+  background: #2d3748;
+  color: white;
+  padding: 2rem;
+  text-align: center;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.copyright {
+  opacity: 0.8;
+}

@@ -1,0 +1,145 @@
+.home {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero {
+  padding: 100px 20px;
+  text-align: center;
+  background-color: #DDE0FF;
+  color: #1a1a2e;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+  font-weight: 800;
+  font-family: 'Abhaya Libre', serif;
+}
+
+.safe-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  font-family: 'Abhaya Libre', serif;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  opacity: 0.8;
+  font-family: 'Inter', sans-serif;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-primary {
+  background: #4F46E5;
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+  background: #4338CA;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #4F46E5;
+  border: 2px solid #4F46E5;
+}
+
+.btn-secondary:hover {
+  background: #4F46E5;
+  color: white;
+}
+
+.features {
+  padding: 80px 20px;
+  background-color: #DDE0FF;
+}
+
+.features .container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 7px;
+  transition: all 0.3s;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  background: white;
+}
+
+.icon {
+  margin-bottom: 1rem;
+}
+
+.icon svg {
+  filter: drop-shadow(0 2px 4px rgba(79, 70, 229, 0.2));
+}
+
+.feature-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #1a1a2e;
+  font-family: 'Abhaya Libre', serif;
+}
+
+.feature-card p {
+  color: #4a5568;
+  line-height: 1.6;
+  font-family: 'Inter', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .safe-title {
+    font-size: 2rem;
+  }
+  
+  .buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .features .container {
+    grid-template-columns: 1fr;
+  }
+}
