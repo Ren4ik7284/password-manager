@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -18,11 +18,14 @@ export class HeaderComponent {
   confirmPassword = '';
   errorMessage = '';
   successMessage = '';
-
-  private users = [
-    { email: 'user@example.com', password: '12345678' }
-  ];
   private currentUser: string | null = null;
+
+  constructor(private router: Router) {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      this.currentUser = savedUser;
+    }
+  }
 
   openModal() {
     this.showModal = true;
@@ -51,30 +54,23 @@ export class HeaderComponent {
     this.confirmPassword = '';
   }
 
-  submit() {
+  async submit() {
     this.errorMessage = '';
     this.successMessage = '';
 
-    // Проверка email на пустоту
     if (!this.email || this.email.trim() === '') {
       this.errorMessage = 'Введите email';
       return;
     }
-
-    // Проверка email на пробелы
     if (this.email.includes(' ')) {
       this.errorMessage = 'Email не должен содержать пробелы';
       return;
     }
-
-    // Строгая проверка формата email
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(this.email)) {
-      this.errorMessage = 'Введите корректный email (пример: user@example.com)';
+      this.errorMessage = 'Введите корректный email';
       return;
     }
-
-    // Проверка пароля
     if (!this.password) {
       this.errorMessage = 'Введите пароль';
       return;
@@ -87,47 +83,45 @@ export class HeaderComponent {
       this.errorMessage = 'Пароль должен быть не менее 8 символов';
       return;
     }
+    if (!this.isLoginMode && this.password !== this.confirmPassword) {
+      this.errorMessage = 'Пароли не совпадают';
+      return;
+    }
 
-    if (this.isLoginMode) {
-      // ЛОГИН
-      const user = this.users.find(u => u.email === this.email && u.password === this.password);
-      if (user) {
+    const url = this.isLoginMode 
+      ? 'http://localhost:3000/auth/login' 
+      : 'http://localhost:3000/auth/register';
+    
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: this.email, password: this.password })
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        this.successMessage = data.message;
         this.currentUser = this.email;
         localStorage.setItem('user', this.email);
-        this.successMessage = 'Вход выполнен!';
         setTimeout(() => {
           this.closeModal();
           window.location.reload();
         }, 1000);
       } else {
-        this.errorMessage = 'Неверный email или пароль';
+        this.errorMessage = data.message;
       }
-    } else {
-      // РЕГИСТРАЦИЯ
-      if (this.password !== this.confirmPassword) {
-        this.errorMessage = 'Пароли не совпадают';
-        return;
-      }
-      if (this.users.find(u => u.email === this.email)) {
-        this.errorMessage = 'Пользователь с таким email уже существует';
-        return;
-      }
-      this.users.push({ email: this.email, password: this.password });
-      this.successMessage = 'Регистрация успешна! Теперь войдите';
-      setTimeout(() => {
-        this.switchMode();
-        this.password = '';
-        this.confirmPassword = '';
-      }, 1500);
+    } catch (error) {
+      this.errorMessage = 'Ошибка подключения к серверу. Запустите бэкенд на порту 3000';
     }
   }
 
   isAuthenticated(): boolean {
-    return this.currentUser !== null || localStorage.getItem('user') !== null;
+    return this.currentUser !== null;
   }
 
   getUser(): string | null {
-    return this.currentUser || localStorage.getItem('user');
+    return this.currentUser;
   }
 
   logout() {
