@@ -1,6 +1,6 @@
 <header class="header">
   <div class="container">
-    <div class="logo">
+    <div class="logo" routerLink="/">
       <span class="logo-text">Password</span>
     </div>
     <nav class="nav">
@@ -11,15 +11,26 @@
       <a routerLink="/support" routerLinkActive="active">Поддержка</a>
     </nav>
     <div class="auth-buttons">
-      <button class="btn-login" (click)="openModal()">Войти</button>
-      <button class="btn-try" routerLink="/features">Попробовать</button>
+      <ng-container *ngIf="!isAuthenticated(); else loggedIn">
+        <button class="btn-login" (click)="openModal()">Войти</button>
+        <button class="btn-try" routerLink="/features">Попробовать</button>
+      </ng-container>
+      <ng-template #loggedIn>
+        <span class="user-email">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="#4F46E5"/>
+          </svg>
+          {{ getUsername() }}
+        </span>
+        <button class="btn-logout" (click)="logout()">Выйти</button>
+      </ng-template>
     </div>
   </div>
 </header>
 
 <div class="modal" *ngIf="showModal">
   <div class="modal-content">
-    <span class="close" (click)="closeModal()">&times;</span>
+    <button class="close" (click)="closeModal()">&times;</button>
     
     <h2 *ngIf="isLoginMode">Вход</h2>
     <h2 *ngIf="!isLoginMode">Регистрация</h2>
@@ -27,17 +38,35 @@
     <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
     <div class="success-message" *ngIf="successMessage">{{ successMessage }}</div>
     
-    <input type="email" placeholder="Email (user@example.com)" [(ngModel)]="email">
-    <input type="password" placeholder="Пароль (мин. 8 символов)" [(ngModel)]="password">
-    <input type="password" *ngIf="!isLoginMode" placeholder="Подтвердите пароль" [(ngModel)]="confirmPassword">
-    
-    <button class="submit-btn" (click)="submit()">{{ isLoginMode ? 'Войти' : 'Зарегистрироваться' }}</button>
-    
-    <div class="switch-mode">
-      <span *ngIf="isLoginMode">Нет аккаунта? <a (click)="switchMode()">Зарегистрироваться</a></span>
-      <span *ngIf="!isLoginMode">Уже есть аккаунт? <a (click)="switchMode()">Войти</a></span>
+    <div class="input-group">
+      <label>Email</label>
+      <input type="email" placeholder="user@example.com" [(ngModel)]="email">
     </div>
     
-    <div class="demo" *ngIf="isLoginMode">Тест: user@example.com / 12345678</div>
+    <div class="input-group">
+      <label>Пароль</label>
+      <input type="password" placeholder="••••••••" [(ngModel)]="password">
+    </div>
+    
+    <div class="input-group" *ngIf="!isLoginMode">
+      <label>Подтвердите пароль</label>
+      <input type="password" placeholder="••••••••" [(ngModel)]="confirmPassword">
+    </div>
+    
+    <button class="submit-btn" (click)="submit()">
+      {{ isLoginMode ? "Войти" : "Зарегистрироваться" }}
+    </button>
+    
+    <div class="switch-mode">
+      <span *ngIf="isLoginMode">Нет аккаунта?</span>
+      <span *ngIf="!isLoginMode">Уже есть аккаунт?</span>
+      <a (click)="switchMode()">
+        {{ isLoginMode ? "Зарегистрироваться" : "Войти" }}
+      </a>
+    </div>
+    
+    <div class="demo" *ngIf="isLoginMode">
+      Тест: user@example.com / 12345678
+    </div>
   </div>
 </div>
