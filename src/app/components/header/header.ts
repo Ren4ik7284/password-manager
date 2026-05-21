@@ -29,9 +29,8 @@ export class HeaderComponent {
     private http: HttpClient,
     private tokenService: TokenService
   ) {
-    // При загрузке страницы проверяем сохранённого пользователя
     const savedUser = localStorage.getItem("user_email");
-    if (savedUser) {
+    if (savedUser && this.tokenService.isAuthenticated()) {
       this.currentUser = savedUser;
     }
   }
@@ -39,8 +38,7 @@ export class HeaderComponent {
   getUsername(): string {
     if (!this.currentUser) return "Гость";
     const atIndex = this.currentUser.indexOf("@");
-    if (atIndex === -1) return this.currentUser;
-    return this.currentUser.substring(0, atIndex);
+    return atIndex === -1 ? this.currentUser : this.currentUser.substring(0, atIndex);
   }
 
   openModal() {
@@ -68,6 +66,19 @@ export class HeaderComponent {
     this.successMessage = "";
     this.password = "";
     this.confirmPassword = "";
+  }
+
+  refreshToken() {
+    const refreshToken = this.tokenService.getRefreshToken();
+    if (!refreshToken) return;
+
+    this.http.post<{ access_token: string; refresh_token: string }>(`${this.apiUrl}/refresh`, { refresh_token: refreshToken })
+      .subscribe({
+        next: (response) => {
+          this.tokenService.setTokens(response.access_token, response.refresh_token);
+        },
+        error: () => this.logout()
+      });
   }
 
   submit() {
@@ -108,12 +119,10 @@ export class HeaderComponent {
     const url = this.apiUrl + endpoint;
 
     this.http
-      .post<{ access_token: string }>(url, { email: this.email, password: this.password })
+      .post<{ access_token: string; refresh_token: string }>(url, { email: this.email, password: this.password })
       .subscribe({
         next: (response) => {
-          // Сохраняем токен
-          this.tokenService.setToken(response.access_token);
-          // Сохраняем email пользователя отдельно
+          this.tokenService.setTokens(response.access_token, response.refresh_token);
           localStorage.setItem("user_email", this.email);
           this.currentUser = this.email;
           this.successMessage = this.isLoginMode ? "Вход выполнен!" : "Регистрация успешна!";
@@ -130,7 +139,7 @@ export class HeaderComponent {
   }
 
   isAuthenticated(): boolean {
-    return !!this.tokenService.getToken() && this.currentUser !== null;
+    return this.tokenService.isAuthenticated();
   }
 
   getUser(): string | null {
@@ -138,8 +147,7 @@ export class HeaderComponent {
   }
 
   logout() {
-    this.tokenService.removeToken();
-    localStorage.removeItem("user_email");
+    this.tokenService.removeTokens();
     this.currentUser = null;
     window.location.reload();
   }
