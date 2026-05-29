@@ -1,0 +1,128 @@
+.auth-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.auth-modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.auth-modal h2 {
+  margin-bottom: 1.5rem;
+  color: #1a1a2e;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.password-wrapper input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.password-wrapper input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.toggle-password {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  color: #666;
+}
+
+.toggle-password:hover {
+  color: #667eea;
+}
+
+.hint {
+  font-size: 0.75rem;
+  color: #666;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.error-message {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.success-message {
+  background: #d1fae5;
+  color: #059669;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+button[type="submit"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.switch-mode {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.switch-mode button {
+  background: none;
+  border: none;
+  color: #667eea;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  font-weight: 600;
+}

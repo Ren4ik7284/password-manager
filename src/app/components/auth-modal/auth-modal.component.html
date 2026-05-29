@@ -1,0 +1,60 @@
+<div class="auth-modal-overlay">
+  <div class="auth-modal">
+    <h2>{{ isLoginMode ? "Вход" : "Регистрация" }}</h2>
+    
+    <div *ngIf="errorMessage" class="error-message">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#ef4444" stroke-width="2"/>
+      </svg>
+      <span>{{ errorMessage }}</span>
+    </div>
+    
+    <div *ngIf="successMessage" class="success-message">
+      <span>{{ successMessage }}</span>
+    </div>
+
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" formControlName="email" placeholder="user@example.com" />
+      </div>
+
+      <div class="form-group">
+        <label>Пароль</label>
+        <div class="password-wrapper">
+          <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="********" />
+          <button type="button" class="toggle-password" (click)="showPassword = !showPassword">
+            <svg *ngIf="!showPassword" width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" stroke-width="2"/>
+              <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <svg *ngIf="showPassword" width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M2 2L22 22M6.71 6.71C4.44 7.85 2.77 9.79 1 12C1 12 5 20 12 20C13.64 20 15.05 19.5 16.29 18.72M9.88 9.88C9.33 10.43 9 11.18 9 12C9 13.66 10.34 15 12 15C12.82 15 13.57 14.67 14.12 14.12" stroke="currentColor" stroke-width="2"/>
+              <path d="M17.94 6.06C19.07 6.97 20.06 8.26 21 10.5C21 10.5 19 18 12 18" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </button>
+        </div>
+        <small *ngIf="!isLoginMode" class="hint">
+          Пароль должен содержать минимум 8 символов, заглавную букву и спецсимвол
+        </small>
+      </div>
+
+      <div class="form-group" *ngIf="!isLoginMode">
+        <label>Имя</label>
+        <input type="text" formControlName="name" placeholder="Ваше имя" />
+      </div>
+
+      <button type="submit" [disabled]="authForm.invalid">
+        {{ isLoginMode ? "Войти" : "Зарегистрироваться" }}
+      </button>
+    </form>
+
+    <p class="switch-mode">
+      <span *ngIf="isLoginMode">Нет аккаунта?</span>
+      <span *ngIf="!isLoginMode">Уже есть аккаунт?</span>
+      <button type="button" (click)="switchMode()">
+        {{ isLoginMode ? "Зарегистрироваться" : "Войти" }}
+      </button>
+    </p>
+  </div>
+</div>
