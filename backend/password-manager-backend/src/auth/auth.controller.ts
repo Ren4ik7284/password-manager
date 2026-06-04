@@ -10,23 +10,14 @@ export class AuthController {
   @Post("register")
   @HttpCode(HttpStatus.CREATED)
   async register(@Body() body: { email: string; password: string; name?: string }) {
-    try {
-      return await this.authService.register(body.email, body.password, body.name);
-    } catch (error) {
-      throw error;
-    }
+    return this.authService.register(body.email, body.password, body.name);
   }
 
   @Post("login")
   @HttpCode(HttpStatus.OK)
   @UseGuards(BruteForceGuard)
   async login(@Body() body: { email: string; password: string }, @Req() req: Request) {
-    try {
-      const ip = req.ip || req.connection?.remoteAddress || "unknown";
-      const bruteForceAttempt = req["bruteForceAttempt"];
-      return await this.authService.login(body.email, body.password, ip, bruteForceAttempt);
-    } catch (error) {
-      throw error;
-    }
+    const bruteForceAttempt = req["bruteForceAttempt"];
+    return this.authService.login(body.email, body.password, bruteForceAttempt);
   }
 }

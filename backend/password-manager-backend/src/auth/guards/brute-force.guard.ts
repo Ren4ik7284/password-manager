@@ -14,12 +14,11 @@ export class BruteForceGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
     const { email } = request.body;
-    const ip = request.ip || request.connection?.remoteAddress || "unknown";
-
+    
     if (!email) return true;
 
     const attempt = await this.loginAttemptRepo.findOne({
-      where: { email, ip }
+      where: { email }
     });
 
     if (attempt && attempt.blockedUntil && attempt.blockedUntil > new Date()) {

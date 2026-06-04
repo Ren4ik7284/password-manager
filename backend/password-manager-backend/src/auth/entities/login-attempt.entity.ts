@@ -5,11 +5,8 @@ export class LoginAttempt {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
-
-  @Column()
-  ip: string;
 
   @Column({ default: 0 })
   attempts: number;

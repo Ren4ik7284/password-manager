@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
+import { Injectable, HttpException, HttpStatus, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { JwtService } from "@nestjs/jwt";
@@ -16,30 +16,11 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  private validatePasswordStrength(password: string) {
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-    const hasMinLength = password.length >= 8;
-
-    if (!hasMinLength) {
-      throw new HttpException("Пароль должен содержать минимум 8 символов", HttpStatus.BAD_REQUEST);
-    }
-    if (!hasUpperCase) {
-      throw new HttpException("Пароль должен содержать хотя бы одну заглавную букву", HttpStatus.BAD_REQUEST);
-    }
-    if (!hasSpecialChar) {
-      throw new HttpException("Пароль должен содержать хотя бы один спецсимвол (!@#$%^&*)", HttpStatus.BAD_REQUEST);
-    }
-    return true;
-  }
-
   async register(email: string, password: string, name?: string) {
     const existingUser = await this.userRepo.findOne({ where: { email } });
     if (existingUser) {
       throw new HttpException("Email уже зарегистрирован", HttpStatus.BAD_REQUEST);
     }
-
-    this.validatePasswordStrength(password);
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = this.userRepo.create({ email, password: hashedPassword, name });
@@ -48,11 +29,11 @@ export class AuthService {
     return this.generateTokens(user);
   }
 
-  async login(email: string, password: string, ip: string, bruteForceAttempt: any) {
+  async login(email: string, password: string, bruteForceAttempt: any) {
     const user = await this.userRepo.findOne({ where: { email } });
     
     if (!user) {
-      throw new HttpException("Пользователь с таким email не найден", HttpStatus.UNAUTHORIZED);
+      throw new UnauthorizedException("Пользователь с таким email не найден");
     }
     
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -61,17 +42,15 @@ export class AuthService {
       let attempt = bruteForceAttempt;
       
       if (!attempt) {
-        attempt = await this.loginAttemptRepo.findOne({ where: { email, ip } });
+        attempt = await this.loginAttemptRepo.findOne({ where: { email } });
       }
       
       if (!attempt) {
-        attempt = this.loginAttemptRepo.create({ email, ip, attempts: 0 });
+        attempt = this.loginAttemptRepo.create({ email, attempts: 0 });
       }
       
       attempt.attempts += 1;
       attempt.lastAttemptAt = new Date();
-      
-      await this.loginAttemptRepo.save(attempt);
       
       if (attempt.attempts >= 3) {
         attempt.blockedUntil = new Date(Date.now() + 20 * 60 * 1000);
@@ -82,17 +61,34 @@ export class AuthService {
         );
       }
       
+      await this.loginAttemptRepo.save(attempt);
+      
       const remaining = 3 - attempt.attempts;
-      throw new HttpException(`Неверный пароль. Осталось попыток: ${remaining}`, HttpStatus.UNAUTHORIZED);
+      throw new UnauthorizedException(`Неверный пароль. Осталось попыток: ${remaining}`);
     }
     
     if (bruteForceAttempt) {
       await this.loginAttemptRepo.delete({ id: bruteForceAttempt.id });
     } else {
-      await this.loginAttemptRepo.delete({ email, ip });
+      await this.loginAttemptRepo.delete({ email });
     }
     
     return this.generateTokens(user);
+  }
+
+  async refreshToken(refreshToken: string) {
+    try {
+      const payload = this.jwtService.verify(refreshToken);
+      const user = await this.userRepo.findOne({ where: { id: payload.sub } });
+      
+      if (!user) {
+        throw new UnauthorizedException("Пользователь не найден");
+      }
+      
+      return this.generateTokens(user);
+    } catch (error) {
+      throw new UnauthorizedException("Невалидный refresh токен");
+    }
   }
 
   private generateTokens(user: User) {

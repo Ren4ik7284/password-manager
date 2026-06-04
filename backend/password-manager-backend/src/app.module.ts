@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
+import { ProfileController } from "./profile.controller";
 import { User } from "./users/user.entity";
 import { LoginAttempt } from "./auth/entities/login-attempt.entity";
 
@@ -16,5 +17,6 @@ import { LoginAttempt } from "./auth/entities/login-attempt.entity";
     AuthModule,
     UsersModule,
   ],
+  controllers: [ProfileController],
 })
 export class AppModule {}
