@@ -11,13 +11,22 @@
       <a routerLink="/support" routerLinkActive="active">Поддержка</a>
     </nav>
     <div class="auth-buttons">
+      <button class="btn-theme" (click)="toggleTheme()">
+        <svg *ngIf="!isDarkTheme" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22"/>
+        </svg>
+        <svg *ngIf="isDarkTheme" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/>
+        </svg>
+      </button>
       <ng-container *ngIf="!isAuthenticated(); else loggedIn">
         <button class="btn-login" (click)="openModal()">Войти</button>
         <button class="btn-try" routerLink="/features">Попробовать</button>
       </ng-container>
       <ng-template #loggedIn>
         <span class="user-email">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
             <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="#4F46E5"/>
           </svg>
           {{ getUsername() }}
@@ -31,42 +40,25 @@
 <div class="modal" *ngIf="showModal">
   <div class="modal-content">
     <button class="close" (click)="closeModal()">&times;</button>
-    
-    <h2 *ngIf="isLoginMode">Вход</h2>
-    <h2 *ngIf="!isLoginMode">Регистрация</h2>
-    
+    <h2>{{ isLoginMode ? "Вход" : "Регистрация" }}</h2>
     <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
     <div class="success-message" *ngIf="successMessage">{{ successMessage }}</div>
-    
     <div class="input-group">
       <label>Email</label>
       <input type="email" placeholder="user@example.com" [(ngModel)]="email">
     </div>
-    
     <div class="input-group">
       <label>Пароль</label>
-      <input type="password" placeholder="••••••••" [(ngModel)]="password">
+      <input type="password" placeholder="********" [(ngModel)]="password">
     </div>
-    
     <div class="input-group" *ngIf="!isLoginMode">
       <label>Подтвердите пароль</label>
-      <input type="password" placeholder="••••••••" [(ngModel)]="confirmPassword">
+      <input type="password" placeholder="********" [(ngModel)]="confirmPassword">
     </div>
-    
-    <button class="submit-btn" (click)="submit()">
-      {{ isLoginMode ? "Войти" : "Зарегистрироваться" }}
-    </button>
-    
+    <button class="submit-btn" (click)="submit()">{{ isLoginMode ? "Войти" : "Зарегистрироваться" }}</button>
     <div class="switch-mode">
-      <span *ngIf="isLoginMode">Нет аккаунта?</span>
-      <span *ngIf="!isLoginMode">Уже есть аккаунт?</span>
-      <a (click)="switchMode()">
-        {{ isLoginMode ? "Зарегистрироваться" : "Войти" }}
-      </a>
-    </div>
-    
-    <div class="demo" *ngIf="isLoginMode">
-      Тест: user@example.com / 12345678
+      <span>{{ isLoginMode ? "Нет аккаунта?" : "Уже есть аккаунт?" }}</span>
+      <a (click)="switchMode()">{{ isLoginMode ? "Зарегистрироваться" : "Войти" }}</a>
     </div>
   </div>
 </div>

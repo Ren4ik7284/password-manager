@@ -1,18 +1,17 @@
-import { Component } from "@angular/core";
-import { Router, RouterLink, RouterLinkActive } from "@angular/router";
-import { FormsModule } from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { HttpClient } from "@angular/common/http";
-import { TokenService } from "../../services/token.service";
+import { RouterModule } from "@angular/router";
+import { FormsModule } from "@angular/forms";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: "app-header",
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, FormsModule, CommonModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: "./header.html",
   styleUrls: ["./header.css"]
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   showModal = false;
   isLoginMode = true;
   email = "";
@@ -20,25 +19,35 @@ export class HeaderComponent {
   confirmPassword = "";
   errorMessage = "";
   successMessage = "";
-  currentUser: string | null = null;
+  isDarkTheme = false;
 
-  private apiUrl = "http://localhost:3000/auth";
+  constructor(private authService: AuthService) {}
 
-  constructor(
-    private router: Router,
-    private http: HttpClient,
-    private tokenService: TokenService
-  ) {
-    const savedUser = localStorage.getItem("user_email");
-    if (savedUser && this.tokenService.isAuthenticated()) {
-      this.currentUser = savedUser;
+  ngOnInit() {
+    const saved = localStorage.getItem("theme");
+    if (saved === "dark") {
+      this.isDarkTheme = true;
+      document.body.classList.add("dark");
     }
   }
 
+  toggleTheme() {
+    this.isDarkTheme = !this.isDarkTheme;
+    if (this.isDarkTheme) {
+      document.body.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.body.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }
+
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
   getUsername(): string {
-    if (!this.currentUser) return "Гость";
-    const atIndex = this.currentUser.indexOf("@");
-    return atIndex === -1 ? this.currentUser : this.currentUser.substring(0, atIndex);
+    return this.authService.getUser() || "User";
   }
 
   openModal() {
@@ -51,104 +60,49 @@ export class HeaderComponent {
     this.resetForm();
   }
 
-  resetForm() {
-    this.isLoginMode = true;
+  switchMode() {
+    this.isLoginMode = !this.isLoginMode;
+    this.errorMessage = "";
+    this.successMessage = "";
+  }
+
+  submit() {
+    if (this.isLoginMode) {
+      this.authService.login(this.email, this.password).subscribe({
+        next: () => {
+          this.successMessage = "Вход выполнен!";
+          setTimeout(() => this.closeModal(), 1000);
+        },
+        error: (err) => {
+          this.errorMessage = err.message;
+        }
+      });
+    } else {
+      if (this.password !== this.confirmPassword) {
+        this.errorMessage = "Пароли не совпадают";
+        return;
+      }
+      this.authService.register(this.email, this.password, "").subscribe({
+        next: () => {
+          this.successMessage = "Регистрация успешна!";
+          setTimeout(() => this.closeModal(), 1000);
+        },
+        error: (err) => {
+          this.errorMessage = err.message;
+        }
+      });
+    }
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
+  private resetForm() {
     this.email = "";
     this.password = "";
     this.confirmPassword = "";
     this.errorMessage = "";
     this.successMessage = "";
-  }
-
-  switchMode() {
-    this.isLoginMode = !this.isLoginMode;
-    this.errorMessage = "";
-    this.successMessage = "";
-    this.password = "";
-    this.confirmPassword = "";
-  }
-
-  refreshToken() {
-    const refreshToken = this.tokenService.getRefreshToken();
-    if (!refreshToken) return;
-
-    this.http.post<{ access_token: string; refresh_token: string }>(`${this.apiUrl}/refresh`, { refresh_token: refreshToken })
-      .subscribe({
-        next: (response) => {
-          this.tokenService.setTokens(response.access_token, response.refresh_token);
-        },
-        error: () => this.logout()
-      });
-  }
-
-  submit() {
-    this.errorMessage = "";
-    this.successMessage = "";
-
-    if (!this.email || this.email.trim() === "") {
-      this.errorMessage = "Введите email";
-      return;
-    }
-    if (this.email.includes(" ")) {
-      this.errorMessage = "Email не должен содержать пробелы";
-      return;
-    }
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(this.email)) {
-      this.errorMessage = "Введите корректный email";
-      return;
-    }
-    if (!this.password) {
-      this.errorMessage = "Введите пароль";
-      return;
-    }
-    if (this.password.includes(" ")) {
-      this.errorMessage = "Пароль не должен содержать пробелы";
-      return;
-    }
-    if (this.password.length < 8) {
-      this.errorMessage = "Пароль должен быть не менее 8 символов";
-      return;
-    }
-    if (!this.isLoginMode && this.password !== this.confirmPassword) {
-      this.errorMessage = "Пароли не совпадают";
-      return;
-    }
-
-    const endpoint = this.isLoginMode ? "/login" : "/register";
-    const url = this.apiUrl + endpoint;
-
-    this.http
-      .post<{ access_token: string; refresh_token: string }>(url, { email: this.email, password: this.password })
-      .subscribe({
-        next: (response) => {
-          this.tokenService.setTokens(response.access_token, response.refresh_token);
-          localStorage.setItem("user_email", this.email);
-          this.currentUser = this.email;
-          this.successMessage = this.isLoginMode ? "Вход выполнен!" : "Регистрация успешна!";
-          setTimeout(() => {
-            this.closeModal();
-            window.location.reload();
-          }, 1000);
-        },
-        error: (err) => {
-          console.error("Ошибка:", err);
-          this.errorMessage = err.error?.message || "Ошибка сервера";
-        },
-      });
-  }
-
-  isAuthenticated(): boolean {
-    return this.tokenService.isAuthenticated();
-  }
-
-  getUser(): string | null {
-    return this.currentUser;
-  }
-
-  logout() {
-    this.tokenService.removeTokens();
-    this.currentUser = null;
-    window.location.reload();
   }
 }

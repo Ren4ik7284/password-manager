@@ -1,32 +1,297 @@
-@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&family=Abril+Fatface&family=Inter:wght@300;400;500;600;700&display=swap');
+/* Light theme */
+:root {
+  --bg-body: #ffffff;
+  --bg-header: #f3f4f6;
+  --text: #1a1a2e;
+  --text-secondary: #4b5563;
+  --border: #e5e7eb;
+}
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+body.dark {
+  --bg-body: #1a1a2e;
+  --bg-header: #16213e;
+  --text: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --border: #374151;
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: #DDE0FF;
-  line-height: 1.6;
+  background: var(--bg-body);
+  color: var(--text);
+  margin: 0;
 }
 
-h1, h2, h3 {
-  font-family: 'Abhaya Libre', serif;
-  font-weight: 800;
+.header {
+  background: var(--bg-header);
+  border-bottom: 2px solid var(--border);
 }
 
-.logo {
-  font-family: 'Abril Fatface', cursive;
+.header .logo-text,
+.header .nav a,
+.header .btn-login,
+.header .btn-try {
+  color: var(--text);
 }
 
-button {
-  font-family: 'Inter', sans-serif;
+.modal-content {
+  background: var(--bg-body);
+  color: var(--text);
+  border: 1px solid var(--border);
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+.input-group input {
+  background: var(--bg-body);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-theme {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.btn-theme:hover {
+  background: var(--border);
+}
+/* Dark theme direct */
+body.dark {
+  background-color: #1a1a2e !important;
+  color: #f3f4f6 !important;
+}
+
+body.dark .header {
+  background-color: #16213e !important;
+  border-bottom-color: #374151 !important;
+}
+
+body.dark .nav a {
+  color: #f3f4f6 !important;
+}
+
+body.dark .btn-login,
+body.dark .btn-try {
+  color: #f3f4f6 !important;
+  border-color: #374151 !important;
+}
+
+body.dark .modal-content {
+  background-color: #1a1a2e !important;
+  color: #f3f4f6 !important;
+  border-color: #374151 !important;
+}
+
+body.dark .input-group input {
+  background-color: #16213e !important;
+  color: #f3f4f6 !important;
+  border-color: #374151 !important;
+}
+
+body.dark .close {
+  color: #f3f4f6 !important;
+}
+
+body.dark .switch-mode a {
+  color: #8b5cf6 !important;
+}
+/* Темная тема для home компонента */
+body.dark .home {
+  background: #1a1a2e;
+}
+
+body.dark .hero {
+  background: #0f0f1a !important;
+  color: #f3f4f6 !important;
+}
+
+body.dark .hero h1,
+body.dark .hero .safe-title {
+  color: #f3f4f6 !important;
+}
+
+body.dark .hero .subtitle {
+  color: #9ca3af !important;
+}
+
+body.dark .features {
+  background: #16213e !important;
+}
+
+body.dark .feature-card {
+  background: #1e2a3e !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid #374151 !important;
+}
+
+body.dark .feature-card:hover {
+  background: #2d3a4e !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
+}
+
+body.dark .feature-card h3 {
+  color: #f3f4f6 !important;
+}
+
+body.dark .feature-card p {
+  color: #9ca3af !important;
+}
+
+body.dark .feature-card .icon svg path {
+  fill: #8b5cf6 !important;
+}
+
+body.dark .btn-primary {
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  color: white !important;
+}
+
+body.dark .btn-primary:hover {
+  background: linear-gradient(135deg, #5a67d8, #6b46c1) !important;
+}
+
+body.dark .btn-secondary {
+  background: transparent !important;
+  border-color: #8b5cf6 !important;
+  color: #f3f4f6 !important;
+}
+
+body.dark .btn-secondary:hover {
+  background: rgba(139, 92, 246, 0.2) !important;
+  color: #f3f4f6 !important;
+}
+/* Темная тема для ВСЕХ страниц */
+body.dark {
+  background-color: #1a1a2e !important;
+  color: #f3f4f6 !important;
+}
+
+body.dark .header {
+  background-color: #16213e !important;
+  border-bottom-color: #374151 !important;
+}
+
+body.dark .nav a {
+  color: #f3f4f6 !important;
+}
+
+body.dark .btn-login,
+body.dark .btn-try {
+  color: #f3f4f6 !important;
+  border-color: #374151 !important;
+}
+
+body.dark .footer {
+  background-color: #0f0f1a !important;
+  border-top-color: #374151 !important;
+}
+
+body.dark .footer a {
+  color: #9ca3af !important;
+}
+
+/* Home page */
+body.dark .hero,
+body.dark .features {
+  background: #0f0f1a !important;
+}
+
+body.dark .feature-card {
+  background: #1e2a3e !important;
+  border-color: #374151 !important;
+}
+
+body.dark .feature-card h3,
+body.dark .hero h1,
+body.dark .hero .safe-title {
+  color: #f3f4f6 !important;
+}
+
+body.dark .feature-card p,
+body.dark .hero .subtitle {
+  color: #9ca3af !important;
+}
+
+body.dark .feature-card .icon svg path {
+  fill: #8b5cf6 !important;
+}
+
+/* Features page */
+body.dark .features-page {
+  background: #1a1a2e !important;
+}
+
+body.dark .features-page .feature-item {
+  background: #16213e !important;
+  border-color: #374151 !important;
+}
+
+/* About page */
+body.dark .about-page {
+  background: #1a1a2e !important;
+}
+
+body.dark .about-page .about-content {
+  background: #16213e !important;
+  border-color: #374151 !important;
+}
+
+/* Pricing page */
+body.dark .pricing-page {
+  background: #1a1a2e !important;
+}
+
+body.dark .pricing-card {
+  background: #16213e !important;
+  border-color: #374151 !important;
+}
+
+/* Support page */
+body.dark .support-page {
+  background: #1a1a2e !important;
+}
+
+body.dark .support-card {
+  background: #16213e !important;
+  border-color: #374151 !important;
+}
+
+/* Buttons */
+body.dark .btn-primary {
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  color: white !important;
+}
+
+body.dark .btn-secondary {
+  background: transparent !important;
+  border-color: #8b5cf6 !important;
+  color: #f3f4f6 !important;
+}
+
+body.dark .btn-secondary:hover {
+  background: rgba(139, 92, 246, 0.2) !important;
+}
+
+/* Modal */
+body.dark .modal-content {
+  background: #1a1a2e !important;
+  color: #f3f4f6 !important;
+  border-color: #374151 !important;
+}
+
+body.dark .input-group input {
+  background: #16213e !important;
+  color: #f3f4f6 !important;
+  border-color: #374151 !important;
+}
+
+body.dark .close {
+  color: #f3f4f6 !important;
+}
+
+body.dark .switch-mode a {
+  color: #8b5cf6 !important;
 }
