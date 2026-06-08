@@ -295,3 +295,59 @@ body.dark .close {
 body.dark .switch-mode a {
   color: #8b5cf6 !important;
 }
+body.dark .contact-section {
+  background: #0f0f1a !important;
+}
+
+body.dark .contact-card {
+  background: #1e2a3e !important;
+}
+
+body.dark .contact-card h3 {
+  color: #f3f4f6 !important;
+}
+
+body.dark .contact-card p {
+  color: #9ca3af !important;
+}
+
+body.dark .faq-section {
+  background: #1a1a2e !important;
+}
+
+body.dark .faq-item {
+  background: #0f0f1a !important;
+  border-color: #374151 !important;
+}
+
+body.dark .faq-question {
+  background: #0f0f1a !important;
+  color: #f3f4f6 !important;
+}
+
+body.dark .faq-answer {
+  background: #0f0f1a !important;
+}
+
+body.dark .faq-answer p {
+  color: #9ca3af !important;
+}
+
+body.dark .feedback-section {
+  background: #0f0f1a !important;
+}
+
+body.dark .feedback-form {
+  background: #1e2a3e !important;
+}
+
+body.dark .feedback-form label {
+  color: #f3f4f6 !important;
+}
+
+body.dark .feedback-form input,
+body.dark .feedback-form textarea {
+  background: #0f0f1a !important;
+  border-color: #374151 !important;
+  color: #f3f4f6 !important;
+}
