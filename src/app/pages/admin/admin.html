@@ -1,0 +1,74 @@
+<div class="admin-panel">
+  <div class="container">
+    <div class="header">
+      <h1>Админ-панель</h1>
+      <p>Управление обращениями пользователей</p>
+    </div>
+
+    <div class="error" *ngIf="error">
+      {{ error }}
+    </div>
+
+    <div class="loading" *ngIf="loading">
+      Загрузка...
+    </div>
+
+    <div class="stats" *ngIf="!loading && !error">
+      <div class="stat-card">
+        <div class="stat-value">{{ messages.length }}</div>
+        <div class="stat-label">Всего</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ getStatusCount("new") }}</div>
+        <div class="stat-label">Новые</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ getStatusCount("processing") }}</div>
+        <div class="stat-label">В обработке</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ getStatusCount("resolved") }}</div>
+        <div class="stat-label">Решено</div>
+      </div>
+    </div>
+
+    <div class="table-wrapper" *ngIf="!loading && !error">
+       <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Дата</th>
+            <th>Тема</th>
+            <th>Имя</th>
+            <th>Email</th>
+            <th>Сообщение</th>
+            <th>Статус</th>
+            <th>Действие</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let msg of messages">
+            <td>{{ msg.id }}</td>
+            <td>{{ msg.createdAt | date:"dd.MM.yyyy HH:mm" }}</td>
+            <td>{{ msg.topic }}</td>
+            <td>{{ msg.name }}</td>
+            <td>{{ msg.email }}</td>
+            <td class="message-cell">{{ msg.message }}</td>
+            <td>
+              <span class="status-badge" [class]="msg.status">
+                {{ getStatusText(msg.status) }}
+              </span>
+            </td>
+            <td>
+              <select (change)="updateStatus(msg.id, $event)" [value]="msg.status">
+                <option value="new">Новое</option>
+                <option value="processing">В обработке</option>
+                <option value="resolved">Решено</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+       </table>
+    </div>
+  </div>
+</div>

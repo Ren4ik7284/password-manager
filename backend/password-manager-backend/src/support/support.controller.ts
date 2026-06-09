@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { SupportMessage } from "./entities/support-message.entity";
 import { CreateSupportMessageDto } from "./dto/create-support-message.dto";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
+import { RolesGuard, Roles } from "../auth/guards/roles.guard";
 
 @Controller("support")
 export class SupportController {
@@ -40,5 +41,23 @@ export class SupportController {
       order: { createdAt: "DESC" }
     });
     return messages;
+  }
+
+  @Get("admin/all-messages")
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles("admin")
+  async getAllMessages() {
+    const messages = await this.supportRepo.find({
+      order: { createdAt: "DESC" }
+    });
+    return messages;
+  }
+
+  @Post("admin/update-status")
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles("admin")
+  async updateStatus(@Body() body: { id: number; status: string }) {
+    await this.supportRepo.update(body.id, { status: body.status });
+    return { success: true };
   }
 }

@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
   errorMessage = "";
   successMessage = "";
   isDarkTheme = false;
+  isAdmin = false;
 
   constructor(private authService: AuthService) {}
 
@@ -29,6 +30,12 @@ export class HeaderComponent implements OnInit {
       this.isDarkTheme = true;
       document.body.classList.add("dark");
     }
+    this.checkAdminStatus();
+  }
+
+  checkAdminStatus() {
+    const email = this.authService.getUser();
+    this.isAdmin = email === "bebragnom89@gmail.com";
   }
 
   toggleTheme() {
@@ -43,7 +50,11 @@ export class HeaderComponent implements OnInit {
   }
 
   isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
+    const auth = this.authService.isAuthenticated();
+    if (auth) {
+      this.checkAdminStatus();
+    }
+    return auth;
   }
 
   getUsername(): string {
@@ -71,6 +82,7 @@ export class HeaderComponent implements OnInit {
       this.authService.login(this.email, this.password).subscribe({
         next: () => {
           this.successMessage = "Вход выполнен!";
+          this.checkAdminStatus();
           setTimeout(() => this.closeModal(), 1000);
         },
         error: (err) => {
@@ -96,6 +108,7 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+    this.isAdmin = false;
   }
 
   private resetForm() {

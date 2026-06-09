@@ -14,6 +14,9 @@ export class User {
   @Column({ nullable: true })
   name: string;
 
+  @Column({ default: "user" })
+  role: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
