@@ -1,10 +1,9 @@
-import { Controller, Post, Body, Get, UseGuards, Request } from "@nestjs/common";
+import { Controller, Post, Body, Get, Delete, UseGuards, Request } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { SupportMessage } from "./entities/support-message.entity";
 import { CreateSupportMessageDto } from "./dto/create-support-message.dto";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
-import { RolesGuard, Roles } from "../auth/guards/roles.guard";
 
 @Controller("support")
 export class SupportController {
@@ -22,42 +21,39 @@ export class SupportController {
       message: dto.message,
       status: "new"
     });
-
     await this.supportRepo.save(message);
-
-    return {
-      success: true,
-      message: "Сообщение отправлено",
-      id: message.id
-    };
+    return { success: true, id: message.id };
   }
 
-  @Get("my-messages")
+  @Get("all-messages")
   @UseGuards(JwtAuthGuard)
-  async getMyMessages(@Request() req) {
-    const userId = req.user.userId;
-    const messages = await this.supportRepo.find({
-      where: { user: { id: userId } },
-      order: { createdAt: "DESC" }
-    });
-    return messages;
+  async getAllMessages(@Request() req) {
+    const user = await this.supportRepo.manager.query("SELECT * FROM users WHERE id = ?", [req.user.userId]);
+    if (!user || (user[0] as any).role !== "admin") {
+      return { error: "Доступ запрещен" };
+    }
+    return await this.supportRepo.query("SELECT * FROM support_messages ORDER BY createdAt DESC");
   }
 
-  @Get("admin/all-messages")
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles("admin")
-  async getAllMessages() {
-    const messages = await this.supportRepo.find({
-      order: { createdAt: "DESC" }
-    });
-    return messages;
+  @Post("update-status")
+  @UseGuards(JwtAuthGuard)
+  async updateStatus(@Body() body: { id: number; status: string }, @Request() req) {
+    const user = await this.supportRepo.manager.query("SELECT * FROM users WHERE id = ?", [req.user.userId]);
+    if (!user || (user[0] as any).role !== "admin") {
+      return { error: "Доступ запрещен" };
+    }
+    await this.supportRepo.query("UPDATE support_messages SET status = ? WHERE id = ?", [body.status, body.id]);
+    return { success: true };
   }
 
-  @Post("admin/update-status")
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles("admin")
-  async updateStatus(@Body() body: { id: number; status: string }) {
-    await this.supportRepo.update(body.id, { status: body.status });
+  @Delete("delete/:id")
+  @UseGuards(JwtAuthGuard)
+  async deleteMessage(@Request() req) {
+    const user = await this.supportRepo.manager.query("SELECT * FROM users WHERE id = ?", [req.user.userId]);
+    if (!user || (user[0] as any).role !== "admin") {
+      return { error: "Доступ запрещен" };
+    }
+    await this.supportRepo.query("DELETE FROM support_messages WHERE id = ?", [req.params.id]);
     return { success: true };
   }
 }

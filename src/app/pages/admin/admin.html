@@ -1,74 +1,118 @@
 <div class="admin-panel">
-  <div class="container">
-    <div class="header">
+  <div class="admin-container">
+    <div class="admin-header">
       <h1>Админ-панель</h1>
       <p>Управление обращениями пользователей</p>
     </div>
 
-    <div class="error" *ngIf="error">
-      {{ error }}
-    </div>
-
-    <div class="loading" *ngIf="loading">
+    <div *ngIf="loading" class="loading">
       Загрузка...
     </div>
 
-    <div class="stats" *ngIf="!loading && !error">
-      <div class="stat-card">
-        <div class="stat-value">{{ messages.length }}</div>
-        <div class="stat-label">Всего</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">{{ getStatusCount("new") }}</div>
-        <div class="stat-label">Новые</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">{{ getStatusCount("processing") }}</div>
-        <div class="stat-label">В обработке</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">{{ getStatusCount("resolved") }}</div>
-        <div class="stat-label">Решено</div>
-      </div>
+    <div *ngIf="error" class="loading" style="color: #dc2626">
+      {{ error }}
     </div>
 
-    <div class="table-wrapper" *ngIf="!loading && !error">
-       <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Дата</th>
-            <th>Тема</th>
-            <th>Имя</th>
-            <th>Email</th>
-            <th>Сообщение</th>
-            <th>Статус</th>
-            <th>Действие</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let msg of messages">
-            <td>{{ msg.id }}</td>
-            <td>{{ msg.createdAt | date:"dd.MM.yyyy HH:mm" }}</td>
-            <td>{{ msg.topic }}</td>
-            <td>{{ msg.name }}</td>
-            <td>{{ msg.email }}</td>
-            <td class="message-cell">{{ msg.message }}</td>
-            <td>
-              <span class="status-badge" [class]="msg.status">
-                {{ getStatusText(msg.status) }}
-              </span>
-            </td>
-            <td>
-              <select (change)="updateStatus(msg.id, $event)" [value]="msg.status">
-                <option value="new">Новое</option>
-                <option value="processing">В обработке</option>
-                <option value="resolved">Решено</option>
-              </select>
-            </td>
-          </tr>
-        </tbody>
-       </table>
+    <div *ngIf="!loading && !error && messages.length === 0" class="empty">
+      Нет сообщений
+    </div>
+
+    <div *ngIf="!loading && !error && messages.length > 0">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">{{ messages.length }}</div>
+          <div class="stat-label">Всего</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">{{ getStatusCount("new") }}</div>
+          <div class="stat-label">Новые</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">{{ getStatusCount("processing") }}</div>
+          <div class="stat-label">В обработке</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">{{ getStatusCount("resolved") }}</div>
+          <div class="stat-label">Решено</div>
+        </div>
+      </div>
+
+      <div class="messages-card">
+        <div class="messages-table">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Дата</th>
+                <th>Тема</th>
+                <th>Имя</th>
+                <th>Email</th>
+                <th>Сообщение</th>
+                <th>Статус</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let msg of messages">
+                <td>{{ msg.id }}</td>
+                <td>{{ msg.createdAt | date:"dd.MM.yyyy HH:mm" }}</td>
+                <td>{{ msg.topic }}</td>
+                <td>{{ msg.name }}</td>
+                <td>{{ msg.email }}</td>
+                <td class="message-text" title="{{ msg.message }}">{{ msg.message }}</td>
+                <td>
+                  <span class="status" [class]="msg.status">
+                    {{ getStatusText(msg.status) }}
+                  </span>
+                </td>
+                <td>
+                  <select (change)="updateStatus(msg.id, $event)" [value]="msg.status">
+                    <option value="new">Новое</option>
+                    <option value="processing">В обработке</option>
+                    <option value="resolved">Решено</option>
+                  </select>
+                  <button class="delete-btn" (click)="deleteMessage(msg.id)">Удалить</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+<style>
+  body.dark .admin-panel {
+    background: #111827 !important;
+  }
+  body.dark .stat-card {
+    background: #1f2937 !important;
+  }
+  body.dark .messages-card {
+    background: #1f2937 !important;
+  }
+  body.dark th {
+    background: #374151 !important;
+    color: white !important;
+  }
+  body.dark td {
+    background: #1f2937 !important;
+    color: white !important;
+  }
+  body.dark .admin-header h1 {
+    color: white !important;
+  }
+  body.dark .admin-header p {
+    color: #9ca3af !important;
+  }
+  body.dark .stat-number {
+    color: #818cf8 !important;
+  }
+  body.dark .stat-label {
+    color: #9ca3af !important;
+  }
+  body.dark select {
+    background: #374151 !important;
+    color: white !important;
+  }
+</style>
