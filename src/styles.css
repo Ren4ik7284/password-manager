@@ -351,3 +351,128 @@ body.dark .feedback-form textarea {
   border-color: #374151 !important;
   color: #f3f4f6 !important;
 }
+body.dark .generator-page {
+  background: #0a0a0a !important;
+}
+
+body.dark .card {
+  background: #1a1a1a !important;
+  border: 1px solid #2a2a2a !important;
+}
+
+body.dark .password-box input {
+  background: #0f0f0f !important;
+  border-color: #2a2a2a !important;
+  color: #f9fafb !important;
+}
+
+body.dark .password-box button {
+  background: #8b5cf6 !important;
+  color: #0a0a0a !important;
+}
+
+body.dark .generate-btn {
+  background: #8b5cf6 !important;
+  color: #0a0a0a !important;
+}
+
+body.dark .option {
+  color: #f9fafb !important;
+}
+
+body.dark .strength {
+  background: #0f0f0f !important;
+}
+
+body.dark .strength span {
+  color: #f9fafb !important;
+}
+
+body.dark .bar {
+  background: #2a2a2a !important;
+}
+
+body.dark .bar.active {
+  background: #8b5cf6 !important;
+}
+body.dark .admin-panel {
+  background: #0a0a0a !important;
+}
+
+body.dark .admin-card {
+  background: #1a1a1a !important;
+  border: 1px solid #2a2a2a !important;
+}
+
+body.dark .admin-header h1 {
+  color: #f9fafb !important;
+}
+
+body.dark .admin-header p {
+  color: #9ca3af !important;
+}
+
+body.dark .stat-card {
+  background: #1a1a1a !important;
+  border: 1px solid #2a2a2a !important;
+}
+
+body.dark .stat-number {
+  color: #8b5cf6 !important;
+}
+
+body.dark .stat-label {
+  color: #9ca3af !important;
+}
+
+body.dark .messages-card {
+  background: #1a1a1a !important;
+  border: 1px solid #2a2a2a !important;
+}
+
+body.dark th {
+  background: #0f0f0f !important;
+  color: #f9fafb !important;
+  border-bottom-color: #2a2a2a !important;
+}
+
+body.dark td {
+  background: #1a1a1a !important;
+  color: #f9fafb !important;
+  border-bottom-color: #2a2a2a !important;
+}
+
+body.dark .status-badge.new {
+  background: #7f1d1d !important;
+  color: #fca5a5 !important;
+}
+
+body.dark .status-badge.processing {
+  background: #78350f !important;
+  color: #fcd34d !important;
+}
+
+body.dark .status-badge.resolved {
+  background: #064e3b !important;
+  color: #6ee7b7 !important;
+}
+
+body.dark select {
+  background: #0f0f0f !important;
+  border-color: #2a2a2a !important;
+  color: #f9fafb !important;
+}
+
+body.dark .delete-btn {
+  background: #7f1d1d !important;
+  color: #fca5a5 !important;
+}
+
+body.dark .delete-btn:hover {
+  background: #991b1b !important;
+}
+
+body.dark .loading,
+body.dark .empty {
+  color: #9ca3af !important;
+}

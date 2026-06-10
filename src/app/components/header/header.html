@@ -9,14 +9,9 @@
       <a routerLink="/about" routerLinkActive="active">О сервисе</a>
       <a routerLink="/pricing" routerLinkActive="active">Тарифы</a>
       <a routerLink="/support" routerLinkActive="active">Поддержка</a>
+      <a routerLink="/generator" routerLinkActive="active">Генератор</a>
     </nav>
     <div class="auth-buttons">
-      <a *ngIf="isAdmin" class="admin-link" routerLink="/admin">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2C9.23858 2 7 4.23858 7 7V9H6C4.89543 9 4 9.89543 4 11V19C4 20.1046 4.89543 21 6 21H18C19.1046 21 20 20.1046 20 19V11C20 9.89543 19.1046 9 18 9H17V7C17 4.23858 14.7614 2 12 2Z"/>
-        </svg>
-        Админ
-      </a>
       <button class="btn-theme" (click)="toggleTheme()">
         <svg *ngIf="!isDarkTheme" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="5"/>
@@ -38,6 +33,7 @@
           {{ getUsername() }}
         </span>
         <button class="btn-logout" (click)="logout()">Выйти</button>
+        <a *ngIf="isAdmin" class="admin-link" routerLink="/admin">Админ</a>
       </ng-template>
     </div>
   </div>

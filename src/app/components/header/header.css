@@ -311,3 +311,23 @@ body.dark .admin-link {
 body.dark .admin-link:hover {
   background: rgba(139, 92, 246, 0.2);
 }
+.admin-link {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 15px;
+  padding: 6px 12px;
+  background: #4F46E5;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.admin-link:hover {
+  background: #4338CA;
+}
+
+body.dark .admin-link {
+  background: #8b5cf6;
+  color: #0f0f1a;
+}

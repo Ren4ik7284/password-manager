@@ -1,0 +1,301 @@
+.generator-page {
+  min-height: 100vh;
+  padding: 60px 20px;
+  transition: background 0.3s ease;
+}
+
+body:not(.dark) .generator-page {
+  background: #f3f4f6;
+}
+
+body.dark .generator-page {
+  background: #0a0a0a;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
+}
+
+body:not(.dark) .header h1 {
+  color: #111827;
+}
+
+body.dark .header h1 {
+  color: #f9fafb;
+}
+
+.header p {
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+body:not(.dark) .header p {
+  color: #6b7280;
+}
+
+body.dark .header p {
+  color: #9ca3af;
+}
+
+.card {
+  border-radius: 16px;
+  padding: 30px;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+body:not(.dark) .card {
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+body.dark .card {
+  background: #1a1a1a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  border: 1px solid #2a2a2a;
+}
+
+.password-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.password-box input {
+  flex: 1;
+  padding: 15px;
+  font-size: 1.2rem;
+  font-family: monospace;
+  border-radius: 8px;
+  border: 1px solid;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+body:not(.dark) .password-box input {
+  background: white;
+  border-color: #d1d5db;
+  color: #111827;
+}
+
+body.dark .password-box input {
+  background: #0f0f0f;
+  border-color: #2a2a2a;
+  color: #f9fafb;
+}
+
+.password-box button {
+  padding: 0 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+body:not(.dark) .password-box button {
+  background: #4F46E5;
+  color: white;
+}
+
+body.dark .password-box button {
+  background: #6366f1;
+  color: white;
+}
+
+.password-box button.copied {
+  background: #10b981;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+body:not(.dark) .option {
+  color: #111827;
+}
+
+body.dark .option {
+  color: #f9fafb;
+}
+
+.option input[type="range"] {
+  flex: 1;
+}
+
+.strength {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0;
+  padding: 15px;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+body:not(.dark) .strength {
+  background: #f9fafb;
+}
+
+body.dark .strength {
+  background: #0f0f0f;
+}
+
+.strength-bars {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  margin-right: 15px;
+}
+
+.bar {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+body:not(.dark) .bar {
+  background: #e5e7eb;
+}
+
+body.dark .bar {
+  background: #2a2a2a;
+}
+
+.bar.active {
+  background: #4F46E5;
+}
+
+body.dark .bar.active {
+  background: #8b5cf6;
+}
+
+.strength span {
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+body:not(.dark) .strength span {
+  color: #111827;
+}
+
+body.dark .strength span {
+  color: #f9fafb;
+}
+
+.generate-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+body:not(.dark) .generate-btn {
+  background: #4F46E5;
+  color: white;
+}
+
+body.dark .generate-btn {
+  background: #6366f1;
+  color: white;
+}
+
+body:not(.dark) .generate-btn:hover {
+  background: #4338CA;
+}
+
+body.dark .generate-btn:hover {
+  background: #818cf8;
+}
+
+@media (max-width: 768px) {
+  .password-box {
+    flex-direction: column;
+  }
+  .header h1 {
+    font-size: 1.8rem;
+  }
+}
+.generate-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+body:not(.dark) .generate-btn {
+  background: #4F46E5;
+  color: white;
+}
+
+body.dark .generate-btn {
+  background: #8b5cf6;
+  color: #0a0a0a;
+}
+
+body:not(.dark) .generate-btn:hover {
+  background: #4338CA;
+}
+
+body.dark .generate-btn:hover {
+  background: #a78bfa;
+}
+
+.password-box button {
+  padding: 0 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+body:not(.dark) .password-box button {
+  background: #4F46E5;
+  color: white;
+}
+
+body.dark .password-box button {
+  background: #8b5cf6;
+  color: #0a0a0a;
+}
+
+.password-box button.copied {
+  background: #10b981;
+  color: white;
+}
+
+body.dark .password-box button.copied {
+  background: #059669;
+  color: white;
+}

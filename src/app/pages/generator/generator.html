@@ -1,0 +1,52 @@
+<div class="generator-page">
+  <div class="container">
+    <div class="header">
+      <h1>Генератор паролей</h1>
+      <p>Создавайте надежные пароли</p>
+    </div>
+
+    <div class="card">
+      <div class="password-box">
+        <input type="text" [value]="password" readonly>
+        <button (click)="copy()" [class.copied]="copied">
+          {{ copied ? "Скопировано" : "Копировать" }}
+        </button>
+      </div>
+
+      <div class="options">
+        <div class="option">
+          <label>Длина: {{ length }}</label>
+          <input type="range" min="6" max="32" [(ngModel)]="length" (input)="generate()">
+        </div>
+
+        <label class="option">
+          <input type="checkbox" [(ngModel)]="useUppercase" (change)="generate()"> A-Z
+        </label>
+
+        <label class="option">
+          <input type="checkbox" [(ngModel)]="useLowercase" (change)="generate()"> a-z
+        </label>
+
+        <label class="option">
+          <input type="checkbox" [(ngModel)]="useNumbers" (change)="generate()"> 0-9
+        </label>
+
+        <label class="option">
+          <input type="checkbox" [(ngModel)]="useSymbols" (change)="generate()"> !@#$%^&*
+        </label>
+      </div>
+
+      <div class="strength">
+        <div class="strength-bars">
+          <div class="bar" [class.active]="getStrength() >= 1"></div>
+          <div class="bar" [class.active]="getStrength() >= 2"></div>
+          <div class="bar" [class.active]="getStrength() >= 3"></div>
+          <div class="bar" [class.active]="getStrength() >= 4"></div>
+        </div>
+        <span>{{ getStrengthText() }}</span>
+      </div>
+
+      <button class="generate-btn" (click)="generate()">Сгенерировать</button>
+    </div>
+  </div>
+</div>
