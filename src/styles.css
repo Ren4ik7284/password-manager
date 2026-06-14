@@ -476,3 +476,143 @@ body.dark .loading,
 body.dark .empty {
   color: #9ca3af !important;
 }
+body.dark .saved-page {
+  background: #0a0a0a !important;
+}
+
+body.dark .saved-page .header h1 {
+  color: #f9fafb !important;
+}
+
+body.dark .saved-page .header p {
+  color: #9ca3af !important;
+}
+
+body.dark .empty {
+  background: #1a1a1a !important;
+}
+
+body.dark .empty p {
+  color: #f9fafb !important;
+}
+
+body.dark .password-item {
+  background: #1a1a1a !important;
+  border: 1px solid #2a2a2a !important;
+}
+
+body.dark .password-text {
+  color: #f9fafb !important;
+}
+
+body.dark .password-meta {
+  color: #9ca3af !important;
+}
+
+body.dark .copy-btn {
+  background: #8b5cf6 !important;
+  color: #0a0a0a !important;
+}
+
+body.dark .delete-btn {
+  background: #7f1d1d !important;
+  color: #fca5a5 !important;
+}
+
+body.dark .clear-btn {
+  background: #7f1d1d !important;
+  color: #fca5a5 !important;
+}
+
+body.dark .generate-link {
+  background: #8b5cf6 !important;
+  color: #0a0a0a !important;
+}
+.generator-page .card {
+  border-radius: 24px !important;
+}
+
+.saved-page .password-item {
+  border-radius: 24px !important;
+}
+
+.saved-page .clear-btn {
+  border-radius: 12px !important;
+}
+
+.saved-page .empty {
+  border-radius: 24px !important;
+}
+
+.saved-page .copy-btn {
+  border-radius: 8px !important;
+}
+
+.saved-page .delete-btn {
+  border-radius: 10px !important;
+}
+
+.saved-page .generate-link {
+  border-radius: 12px !important;
+}
+.generator-page .card {
+  border-radius: 32px !important;
+  overflow: hidden !important;
+}
+
+.saved-page .password-item {
+  border-radius: 32px !important;
+  overflow: hidden !important;
+}
+
+.saved-page .empty {
+  border-radius: 32px !important;
+}
+
+.saved-page .clear-btn {
+  border-radius: 16px !important;
+}
+
+.saved-page .copy-btn {
+  border-radius: 12px !important;
+}
+
+.saved-page .delete-btn {
+  border-radius: 12px !important;
+}
+
+.saved-page .generate-link {
+  border-radius: 16px !important;
+}
+
+.saved-page .header h1 {
+  border-radius: 0 !important;
+}
+
+.password-box button {
+  border-radius: 16px !important;
+}
+
+.password-box input {
+  border-radius: 16px !important;
+}
+
+.generate-btn {
+  border-radius: 16px !important;
+}
+
+.save-btn {
+  border-radius: 16px !important;
+}
+
+.option {
+  border-radius: 12px !important;
+}
+
+.strength {
+  border-radius: 16px !important;
+}
+
+.bar {
+  border-radius: 4px !important;
+}

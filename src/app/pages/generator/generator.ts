@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { PasswordHistoryService } from "../../services/password-history.service";
 
 @Component({
   selector: "app-generator",
@@ -17,8 +18,9 @@ export class GeneratorComponent {
   useSymbols = true;
   password = "";
   copied = false;
+  saved = false;
 
-  constructor() {
+  constructor(private historyService: PasswordHistoryService) {
     this.generate();
   }
 
@@ -39,6 +41,7 @@ export class GeneratorComponent {
       result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     this.password = result;
+    this.saved = false;
   }
 
   copy() {
@@ -46,6 +49,23 @@ export class GeneratorComponent {
     this.copied = true;
     setTimeout(() => {
       this.copied = false;
+    }, 2000);
+  }
+
+  save() {
+    this.historyService.savePassword({
+      id: Date.now(),
+      password: this.password,
+      createdAt: new Date(),
+      length: this.length,
+      hasUppercase: this.useUppercase,
+      hasLowercase: this.useLowercase,
+      hasNumbers: this.useNumbers,
+      hasSymbols: this.useSymbols
+    });
+    this.saved = true;
+    setTimeout(() => {
+      this.saved = false;
     }, 2000);
   }
 

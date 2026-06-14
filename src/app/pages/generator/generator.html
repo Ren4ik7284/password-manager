@@ -13,6 +13,12 @@
         </button>
       </div>
 
+      <div class="save-box">
+        <button class="save-btn" (click)="save()" [class.saved]="saved">
+          {{ saved ? "Сохранено!" : "Сохранить пароль" }}
+        </button>
+      </div>
+
       <div class="options">
         <div class="option">
           <label>Длина: {{ length }}</label>
@@ -47,6 +53,10 @@
       </div>
 
       <button class="generate-btn" (click)="generate()">Сгенерировать</button>
+    </div>
+
+    <div class="history-link">
+      <a routerLink="/saved-passwords">Просмотреть сохраненные пароли →</a>
     </div>
   </div>
 </div>

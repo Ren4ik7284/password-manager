@@ -6,6 +6,7 @@ import { PricingComponent } from "./pages/pricing/pricing";
 import { SupportComponent } from "./pages/support/support";
 import { AdminComponent } from "./pages/admin/admin";
 import { GeneratorComponent } from "./pages/generator/generator";
+import { SavedPasswordsComponent } from "./pages/saved-passwords/saved-passwords";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -15,5 +16,6 @@ export const routes: Routes = [
   { path: "support", component: SupportComponent },
   { path: "admin", component: AdminComponent },
   { path: "generator", component: GeneratorComponent },
+  { path: "saved-passwords", component: SavedPasswordsComponent },
   { path: "**", redirectTo: "" }
 ];
